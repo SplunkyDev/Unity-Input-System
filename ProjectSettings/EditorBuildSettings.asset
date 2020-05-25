@@ -5,9 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/InputSystemPlayground/1_Scenes/0_InputSystem.unity
     guid: 88daa61e3c08f604d8b51a3c081bd8d3
+  - enabled: 1
+    path: Assets/InputSystemPlayground/1_Scenes/0_InputSystem_XR.unity
+    guid: a5bc73cb494d5c44c938b0808bb3cad8
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: fcf10f7f8c604834cb5d1b146d7d1bd7,
       type: 2}
