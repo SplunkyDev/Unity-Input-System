@@ -47,6 +47,8 @@ public class LookSystem : MonoBehaviour, ILook
 			return;
 
 		m_refUserControl.DeRegisterToEvent(UserSwitchedControl);
+		m_refInputControls.Player.Disable();
+		m_refInputControls.Player.Look.performed -= Look;
 	}
 
 	void UserSwitchedControl()

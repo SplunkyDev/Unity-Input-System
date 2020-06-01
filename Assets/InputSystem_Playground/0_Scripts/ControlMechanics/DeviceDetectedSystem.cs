@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
-public class DeviceDetectedSystem : MonoBehaviour, IDeviceTypeDetected
+public class DeviceDetectedSystem : MonoBehaviour, IDeviceTypeDetected, IInitializable
 {
 	public InputDevice[] InputDevicesDetected { get; private set; }
 	public Utility.Controls.ePreferredControl m_enumPreferredControls;
@@ -81,10 +81,15 @@ public class DeviceDetectedSystem : MonoBehaviour, IDeviceTypeDetected
 	public void Start()
 	{
 		UserControls refControls = m_refControlPool.Spawn(Vector3.zero);
-		if(refControls == null)
+		if (refControls == null)
 		{
 			Debug.LogError("[DeviceDetectionSystem] ");
 		}
 		m_lstInputControls.Add(refControls);
+	}
+
+	public void Initialize()
+	{
+		
 	}
 }
