@@ -46,13 +46,12 @@ public class MoveSystem : MonoBehaviour, IMove
 		BEnableInput = false;
 		Debug.Log("[MoveSystem] Switched Controls ");
 	}
-	// Start is called before the first frame update
+
 	void Start()
     {
 		Vec2Move = Vector3.zero;
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
 		transform.Translate(new Vector3(Vec2Move.x, 0, Vec2Move.y) * Time.deltaTime * m_fwalkSpeed, Space.Self);
@@ -62,6 +61,5 @@ public class MoveSystem : MonoBehaviour, IMove
 	{
 		BEnableInput = true;
 		Vec2Move = callbackContext.ReadValue<Vector2>().normalized;
-		//Debug.Log("Move Input: " + Vec2Move);
 	}
 }
