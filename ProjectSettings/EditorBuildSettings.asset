@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Zenject_Playground/1_Scenes/1_Playground_Body.unity
     guid: b4b05976e2f7eb049a84d5567ddc18e6
+  - enabled: 1
+    path: Assets/Zenject_Playground/1_Scenes/2_Playground_Exit.unity
+    guid: 16afe26d1426a3545b85e3becffd48d2
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: fcf10f7f8c604834cb5d1b146d7d1bd7,
       type: 2}

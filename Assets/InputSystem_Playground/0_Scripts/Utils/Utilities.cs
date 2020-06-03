@@ -16,3 +16,13 @@ namespace Utility.Controls
 
 	public delegate void m_delUserChangedController();
 }
+
+namespace Utility.States
+{
+	public enum eGameState
+	{
+		Intro =0,
+		Game =1,
+		Outro =2
+	}
+}

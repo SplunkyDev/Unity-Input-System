@@ -5,6 +5,6 @@ public class GameInstaller : MonoInstaller
 	public override void InstallBindings()
 	{
 		Container.BindInterfacesTo<GameRunner>().AsSingle();
-		Container.BindInterfacesAndSelfTo<Ship>().FromSubContainerResolve();
+		//Container.BindInterfacesAndSelfTo<Ship>().FromSubContainerResolve();
 	}
 }

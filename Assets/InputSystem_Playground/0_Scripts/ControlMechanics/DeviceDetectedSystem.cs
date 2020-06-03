@@ -86,6 +86,12 @@ public class DeviceDetectedSystem : MonoBehaviour, IDeviceTypeDetected, IInitial
 			Debug.LogError("[DeviceDetectionSystem] ");
 		}
 		m_lstInputControls.Add(refControls);
+
+		var keyBoard = Keyboard.current;
+		if(keyBoard.spaceKey.isPressed)
+		{
+			//D0 your stuff
+		}
 	}
 
 	public void Initialize()

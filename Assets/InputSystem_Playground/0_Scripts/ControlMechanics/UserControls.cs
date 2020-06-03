@@ -13,19 +13,22 @@ public class UserControls : MonoBehaviour, IUserControl
 
 	private void Awake()
 	{
-		RefPlayerInput = GetComponent<PlayerInput>();	
+		RefPlayerInput = GetComponent<PlayerInput>();
+
 	}
 
 	private void OnEnable()
 	{
 		//RefPlayerInput.onControlsChanged += UserChangedControls;
 		InputUser.onChange += UserChangedControls;
+		RefPlayerInput.controlsChangedEvent.AddListener(PlayerChangeControl);
 	}
 
 	private void OnDisable()
 	{
 		//RefPlayerInput.onControlsChanged -= UserChangedControls;
 		InputUser.onChange -= UserChangedControls;
+		RefPlayerInput.controlsChangedEvent.RemoveListener(PlayerChangeControl);
 	}
 
 	private void Initialize(Vector3 a_vec3Position)
@@ -52,8 +55,10 @@ public class UserControls : MonoBehaviour, IUserControl
 	{
 		if (change == InputUserChange.ControlSchemeChanged)
 		{
-			UserSwitchedController?.Invoke();
+			//Device changed
 		}
+
+		//Debug.Log("Control Scheme: " + user.controlScheme);
 	}
 
 	public class UserControlPool : MonoMemoryPool<Vector3, UserControls>
@@ -62,5 +67,11 @@ public class UserControls : MonoBehaviour, IUserControl
 		{
 			a_refInputControls.Initialize(a_vec3Position);
 		}
+	}
+
+	private void PlayerChangeControl(PlayerInput a_refPlayerInput)
+	{
+		Debug.Log("[UserCOntrol] Player Changed Device: "+a_refPlayerInput.currentControlScheme);
+		UserSwitchedController?.Invoke();
 	}
 }
