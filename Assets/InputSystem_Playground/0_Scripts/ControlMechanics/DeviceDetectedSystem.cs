@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
-public class DeviceDetectedSystem : MonoBehaviour, IDeviceTypeDetected, IInitializable
+public class DeviceDetectionSystem : IDeviceTypeDetected, IInitializable
 {
 	public InputDevice[] InputDevicesDetected { get; private set; }
 	public Utility.Controls.ePreferredControl m_enumPreferredControls;
@@ -18,25 +17,6 @@ public class DeviceDetectedSystem : MonoBehaviour, IDeviceTypeDetected, IInitial
 		m_refControlPool = a_refControlPool;
 	}
 
-	private void Awake()
-	{
-		InputSystem.onDeviceChange += DeviceDetected;
-
-		InputDevicesDetected = new InputDevice[InputSystem.devices.ToArray().Length];
-		InputDevicesDetected = InputSystem.devices.ToArray();
-
-	}
-
-	private void OnEnable()
-	{
-
-
-	}
-
-	private void OnDisable()
-	{
-
-	}
 
 	public void DeviceDetected(InputDevice a_inputDevice, InputDeviceChange a_inputDeviceChange)
 	{
@@ -46,7 +26,6 @@ public class DeviceDetectedSystem : MonoBehaviour, IDeviceTypeDetected, IInitial
 				Debug.Log(a_inputDevice.device);
 				break;
 			case InputDeviceChange.Removed:
-
 				break;
 			case InputDeviceChange.Disconnected:
 				break;
@@ -69,16 +48,18 @@ public class DeviceDetectedSystem : MonoBehaviour, IDeviceTypeDetected, IInitial
 		InputDevicesDetected = InputSystem.devices.ToArray();
 
 
-		//for (int i = 0; i < InputDevicesDetected.Length; i++)
-		//{s
-		//	Debug.Log("Device detected: " + InputDevicesDetected[i].device);
-		//	Debug.Log("DeviceID: " + InputDevicesDetected[i].deviceId);
-		//	Debug.Log("Device displayName: " + InputDevicesDetected[i].device.displayName);
-		//	Debug.Log("Device description: " + InputDevicesDetected[i].device.description);
-		//}
+		Debug.Log("<color=green>*********************************************************</color>");
+		for (int i = 0; i < InputDevicesDetected.Length; i++)
+		{		
+			Debug.Log("Device detected: " + InputDevicesDetected[i].device);
+			Debug.Log("DeviceID: " + InputDevicesDetected[i].deviceId);
+			Debug.Log("Device displayName: " + InputDevicesDetected[i].device.displayName);
+			Debug.Log("Device description: " + InputDevicesDetected[i].device.description);
+			Debug.Log("<color=green>*********************************************************</color>");
+		}
 	}
 
-	public void Start()
+	private void InstantiatePlayer()
 	{
 		UserControls refControls = m_refControlPool.Spawn(Vector3.zero);
 		if (refControls == null)
@@ -87,15 +68,14 @@ public class DeviceDetectedSystem : MonoBehaviour, IDeviceTypeDetected, IInitial
 		}
 		m_lstInputControls.Add(refControls);
 
-		var keyBoard = Keyboard.current;
-		if(keyBoard.spaceKey.isPressed)
-		{
-			//D0 your stuff
-		}
 	}
 
 	public void Initialize()
 	{
-		
+		Debug.Log("[DeviceDetectionSystem] Initialize");
+		InputSystem.onDeviceChange += DeviceDetected;
+
+		InputDevicesDetected = new InputDevice[InputSystem.devices.ToArray().Length];
+		InputDevicesDetected = InputSystem.devices.ToArray();
 	}
 }
