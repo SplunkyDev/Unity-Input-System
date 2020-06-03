@@ -4,7 +4,7 @@ using UnityEngine;
 using Utility.States;
 using Zenject;
 
-public class GameStateHandler : MonoBehaviour, IGameState, IInitializable
+public class GameStateHandler : IGameState, IInitializable
 {
 	private Utility.States.eGameState m_enumGameState;
 	public eGameState EGameState { get => m_enumGameState; set => m_enumGameState = value; }

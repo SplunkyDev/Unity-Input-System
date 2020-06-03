@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
 
-public class SceneHandler : MonoBehaviour, ISceneUpdate, IInitializable
+public class SceneHandler : ISceneUpdate, IInitializable
 {
 	private IGameState m_refGameState;
 

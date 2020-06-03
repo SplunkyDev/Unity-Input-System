@@ -19,14 +19,14 @@ public class UserControls : MonoBehaviour, IUserControl
 
 	private void OnEnable()
 	{
-		//RefPlayerInput.onControlsChanged += UserChangedControls;
+		RefPlayerInput.onControlsChanged += UserChangedControls;
 		InputUser.onChange += UserChangedControls;
 		RefPlayerInput.controlsChangedEvent.AddListener(PlayerChangeControl);
 	}
 
 	private void OnDisable()
 	{
-		//RefPlayerInput.onControlsChanged -= UserChangedControls;
+		RefPlayerInput.onControlsChanged -= UserChangedControls;
 		InputUser.onChange -= UserChangedControls;
 		RefPlayerInput.controlsChangedEvent.RemoveListener(PlayerChangeControl);
 	}
@@ -36,10 +36,10 @@ public class UserControls : MonoBehaviour, IUserControl
 		transform.position = a_vec3Position;
 	}
 
-	//public void UserChangedControls(PlayerInput a_refPlayerInput)
-	//{
-	//	Debug.Log("[UserCOntrols] CHnaged Controls: " + a_refPlayerInput.currentActionMap);
-	//}
+	public void UserChangedControls(PlayerInput a_refPlayerInput)
+	{
+		Debug.Log("[UserCOntrols] Player OnControlChanged: " + a_refPlayerInput.currentActionMap);
+	}
 
 	public void RegisterToEvent(m_delUserChangedController a_event)
 	{
@@ -55,10 +55,10 @@ public class UserControls : MonoBehaviour, IUserControl
 	{
 		if (change == InputUserChange.ControlSchemeChanged)
 		{
-			//Device changed
+			//Device changed, but this seems to call very often
 		}
 
-		//Debug.Log("Control Scheme: " + user.controlScheme);
+		Debug.Log("Control Scheme: " + user.controlScheme);
 	}
 
 	public class UserControlPool : MonoMemoryPool<Vector3, UserControls>
@@ -69,6 +69,8 @@ public class UserControls : MonoBehaviour, IUserControl
 		}
 	}
 
+
+	//This is called when the specific players input device changes
 	private void PlayerChangeControl(PlayerInput a_refPlayerInput)
 	{
 		Debug.Log("[UserCOntrol] Player Changed Device: "+a_refPlayerInput.currentControlScheme);

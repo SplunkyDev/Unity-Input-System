@@ -7,7 +7,7 @@ public class InitilizeInstaller : MonoInstaller
 
 	public override void InstallBindings()
     {
-		Container.BindInterfacesTo<GameStateHandler>().FromComponentInHierarchy().AsSingle();
-		Container.BindInterfacesTo<SceneHandler>().FromComponentInHierarchy().AsSingle();
+		Container.BindInterfacesTo<GameStateHandler>().AsSingle();
+		Container.BindInterfacesTo<SceneHandler>().AsSingle();
     }
 }

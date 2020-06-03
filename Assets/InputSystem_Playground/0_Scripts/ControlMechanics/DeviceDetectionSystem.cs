@@ -12,7 +12,7 @@ public class DeviceDetectionSystem : IDeviceTypeDetected, IInitializable
 	private List<UserControls> m_lstInputControls = new List<UserControls>();
 
 	[Inject]
-	private void Construct(UserControls.UserControlPool a_refControlPool )
+	private DeviceDetectionSystem(UserControls.UserControlPool a_refControlPool)
 	{
 		m_refControlPool = a_refControlPool;
 	}
@@ -59,7 +59,7 @@ public class DeviceDetectionSystem : IDeviceTypeDetected, IInitializable
 		}
 	}
 
-	private void InstantiatePlayer()
+	private void InitializePlayer()
 	{
 		UserControls refControls = m_refControlPool.Spawn(Vector3.zero);
 		if (refControls == null)
@@ -77,5 +77,8 @@ public class DeviceDetectionSystem : IDeviceTypeDetected, IInitializable
 
 		InputDevicesDetected = new InputDevice[InputSystem.devices.ToArray().Length];
 		InputDevicesDetected = InputSystem.devices.ToArray();
+
+
+		InitializePlayer();
 	}
 }
