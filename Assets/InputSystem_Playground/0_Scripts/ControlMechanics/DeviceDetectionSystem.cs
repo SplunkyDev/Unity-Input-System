@@ -8,22 +8,23 @@ public class DeviceDetectionSystem : IDeviceTypeDetected, IInitializable
 	public InputDevice[] InputDevicesDetected { get; private set; }
 	public Utility.Controls.ePreferredControl m_enumPreferredControls;
 
-	private UserControls.UserControlPool m_refControlPool;
-	private List<UserControls> m_lstInputControls = new List<UserControls>();
+	
 
-	[Inject]
-	private DeviceDetectionSystem(UserControls.UserControlPool a_refControlPool)
-	{
-		m_refControlPool = a_refControlPool;
-	}
+	[Inject(Id = "DefaultControl")]
+	private UserControls.UserControlPool m_refDefaultControlPool;
+	private List<UserControls> m_lstDefaultControls = new List<UserControls>();
+	
+	[Inject(Id = "XRControl")]
+	private UserControls.UserControlPool m_refXRControlPool;
+	private List<UserControls> m_lstXRControls = new List<UserControls>();
 
+	
 
 	public void DeviceDetected(InputDevice a_inputDevice, InputDeviceChange a_inputDeviceChange)
 	{
 		switch (a_inputDeviceChange)
 		{
 			case InputDeviceChange.Added:
-				Debug.Log(a_inputDevice.device);
 				break;
 			case InputDeviceChange.Removed:
 				break;
@@ -48,9 +49,22 @@ public class DeviceDetectionSystem : IDeviceTypeDetected, IInitializable
 		InputDevicesDetected = InputSystem.devices.ToArray();
 
 
+		DevicesUpdated();
+
+		//InitializePlayer();
+	}
+
+
+	private void DevicesUpdated()
+	{
 		Debug.Log("<color=green>*********************************************************</color>");
 		for (int i = 0; i < InputDevicesDetected.Length; i++)
-		{		
+		{
+			if (InputDevicesDetected[i].device.ToString().Contains("XRInput"))
+			{
+				m_enumPreferredControls = Utility.Controls.ePreferredControl.XRController;
+			}
+
 			Debug.Log("Device detected: " + InputDevicesDetected[i].device);
 			Debug.Log("DeviceID: " + InputDevicesDetected[i].deviceId);
 			Debug.Log("Device displayName: " + InputDevicesDetected[i].device.displayName);
@@ -61,17 +75,43 @@ public class DeviceDetectionSystem : IDeviceTypeDetected, IInitializable
 
 	private void InitializePlayer()
 	{
-		UserControls refControls = m_refControlPool.Spawn(Vector3.zero);
-		if (refControls == null)
+		if(m_enumPreferredControls == Utility.Controls.ePreferredControl.XRController)
 		{
-			Debug.LogError("[DeviceDetectionSystem] ");
+			if(m_lstDefaultControls.Count>0)
+			{
+				for(int i =0; i< m_lstDefaultControls.Count;i++)
+				{
+					UserControls refUserControls = m_lstDefaultControls[i];
+					m_refDefaultControlPool.Despawn(refUserControls);
+					m_lstDefaultControls.Remove(refUserControls);
+				}
+			}
+			m_refXRControlPool.Spawn(Vector3.zero);
 		}
-		m_lstInputControls.Add(refControls);
+		else
+		{
+			if (m_lstXRControls.Count > 0)
+			{
+				for (int i = 0; i < m_lstXRControls.Count; i++)
+				{
+					UserControls refUserControls = m_lstXRControls[i];
+					m_refXRControlPool.Despawn(refUserControls);
+					m_lstXRControls.Remove(refUserControls);
+				}
+			}
+
+			m_refDefaultControlPool.Spawn(Vector3.zero);
+		
+		}
+
 
 	}
 
 	public void Initialize()
 	{
+
+		m_enumPreferredControls = Utility.Controls.ePreferredControl.XRController;
+
 		Debug.Log("[DeviceDetectionSystem] Initialize");
 		InputSystem.onDeviceChange += DeviceDetected;
 
