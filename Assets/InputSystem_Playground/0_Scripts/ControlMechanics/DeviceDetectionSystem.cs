@@ -51,7 +51,7 @@ public class DeviceDetectionSystem : IDeviceTypeDetected, IInitializable
 
 		DevicesUpdated();
 
-		//InitializePlayer();
+		InitializePlayer();
 	}
 
 
@@ -77,6 +77,9 @@ public class DeviceDetectionSystem : IDeviceTypeDetected, IInitializable
 	{
 		if(m_enumPreferredControls == Utility.Controls.ePreferredControl.XRController)
 		{
+			if (m_lstXRControls.Count > 0)
+				return;
+
 			if(m_lstDefaultControls.Count>0)
 			{
 				for(int i =0; i< m_lstDefaultControls.Count;i++)
@@ -86,10 +89,15 @@ public class DeviceDetectionSystem : IDeviceTypeDetected, IInitializable
 					m_lstDefaultControls.Remove(refUserControls);
 				}
 			}
-			m_refXRControlPool.Spawn(Vector3.zero);
+			UserControls UserControls = m_refXRControlPool.Spawn(Vector3.zero);
+			m_lstXRControls.Add(UserControls);
+
 		}
 		else
 		{
+			if (m_lstDefaultControls.Count > 0)
+				return;
+
 			if (m_lstXRControls.Count > 0)
 			{
 				for (int i = 0; i < m_lstXRControls.Count; i++)
@@ -100,8 +108,9 @@ public class DeviceDetectionSystem : IDeviceTypeDetected, IInitializable
 				}
 			}
 
-			m_refDefaultControlPool.Spawn(Vector3.zero);
-		
+			UserControls UserControls =  m_refDefaultControlPool.Spawn(Vector3.zero);
+			m_lstDefaultControls.Add(UserControls);
+
 		}
 
 
